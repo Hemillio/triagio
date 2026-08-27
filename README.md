@@ -37,5 +37,3 @@ O **Triagio** resolve essa dor digitalizando a entrada do veículo, permitindo a
 ### Pré-requisitos
 * **Git** instalado
 * **Python** (versão 3.10 ou superior)
-
-### Passo a Passo
