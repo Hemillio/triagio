@@ -23,12 +23,12 @@ O **Triagio** resolve essa dor digitalizando a entrada do veículo, permitindo a
 
 ## Composição do Time
 
-| Integrante | Eixo de Responsabilidade | Módulo Principal |
-| :--- | :--- | :--- |
-| **Kauane Coimbra Sousa https://github.com/KauaneCoimbra** | CRM, Frota & Histórico | Cadastro de clientes, veículos e histórico por placa |
-| **Hemillio Oliveira Santos https://github.com/Hemillio** | Agendamento & Recepção | Calendário de vistorias, fila de espera e horários |
-| **Danilo Feitosa do Carmo https://github.com/danilofeitosac** | Checklist Digital | Vistoria de avarias, fotos do pátio e registro de pertences |
-| **João Mateus Monteiro Batista https://github.com/jotaaa728** | Portal do Cliente | Acompanhamento do status pela placa e emissão do laudo |
+| Integrante | GitHub | Eixo de Responsabilidade | Módulo Principal |
+| :--- | :--- | :--- | :--- |
+| **Kauane Coimbra Sousa** | **https://github.com/KauaneCoimbra** | CRM, Frota & Histórico | Cadastro de clientes, veículos e histórico por placa |
+| **Hemillio Oliveira Santos** | **https://github.com/Hemillio** | Agendamento & Recepção | Calendário de vistorias, fila de espera e horários |
+| **Danilo Feitosa do Carmo** | **https://github.com/danilofeitosac** | Checklist Digital | Vistoria de avarias, fotos do pátio e registro de pertences |
+| **João Mateus Monteiro Batista** | **https://github.com/jotaaa728** | Portal do Cliente | Acompanhamento do status pela placa e emissão do laudo |
 
 ---
 
