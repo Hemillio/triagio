@@ -1,1 +1,10 @@
+stateDiagram-v2
+    [*] --> EmPreenchimento : iniciar vistoria
+    EmPreenchimento --> Finalizada : concluir checklist
+    Finalizada --> LaudoDisponivel : gerar laudo
+    LaudoDisponivel --> [*]
 
+    note right of EmPreenchimento
+      Registra avarias, combustível,
+      pertences e fotos.
+    end note
