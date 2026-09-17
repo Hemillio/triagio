@@ -1,39 +1,63 @@
 # Triagio — Sistema Web de Atendimento e Triagem para Oficina
 
-Sistema web simples e intuitivo desenvolvido como projeto prático para a disciplina de Engenharia de Software, focado na digitalização da entrada e vistoria de veículos em oficinas mecânicas.
+Sistema web desenvolvido como projeto prático da disciplina de Engenharia de Software, com foco na digitalização da recepção, triagem e vistoria de veículos em oficinas mecânicas.
 
----
+## Problema
 
-## O Problema
+O processo de recepção e triagem de veículos em oficinas pode depender de fichas em papel e mensagens informais. Isso favorece retrabalho, perda de histórico, conflitos de agendamento e divergências sobre avarias pré-existentes.
 
-Oficinas mecânicas enfrentam gargalos no processo de recepção e triagem de veículos, incluindo perda de histórico de avarias pré-existentes, contestação de danos no pátio, agendamentos conflitantes e falta de transparência no acompanhamento pelo cliente. 
+## Proposta
 
-O **Triagio** resolve essa dor digitalizando a entrada do veículo, permitindo a realização de checklists digitais com fotos, gestão simples de agendamentos e disponibilização de um portal para o cliente acompanhar o status do serviço pela placa.
+O Triagio organiza o fluxo de entrada do veículo por meio de:
 
----
+- cadastro de clientes e veículos;
+- agendamento da recepção;
+- checklist digital de vistoria;
+- registro de avarias, nível de combustível e pertences;
+- anexação de fotos;
+- histórico de vistorias por placa;
+- acompanhamento do status por link/token;
+- emissão de laudo simplificado de entrada.
 
-## Tecnologias Utilizadas
+## MVP
 
-* **Linguagem:** Python 3
-* **Framework Web:** Flask (Simples, leve e rápido)
-* **Frontend:** HTML5, CSS3 e Bootstrap 5 (design responsivo)
-* **Banco de Dados:** SQLite (nativo do Python, sem necessidade de configuração de servidor)
+O MVP cobre o fluxo principal de triagem e vistoria:
 
----
+1. cadastrar ou localizar cliente e veículo;
+2. agendar a recepção;
+3. iniciar a vistoria;
+4. preencher o checklist e anexar evidências;
+5. finalizar a vistoria;
+6. gerar o laudo;
+7. disponibilizar acompanhamento ao cliente.
 
-## Composição do Time
+## Tecnologias previstas
 
-| Integrante | GitHub | Eixo de Responsabilidade | Módulo Principal |
-| :--- | :--- | :--- | :--- |
-| **Kauane Coimbra Sousa** | **https://github.com/KauaneCoimbra** | CRM, Frota & Histórico | Cadastro de clientes, veículos e histórico por placa |
-| **Hemillio Oliveira Santos** | **https://github.com/Hemillio** | Agendamento & Recepção | Calendário de vistorias, fila de espera e horários |
-| **Danilo Feitosa do Carmo** | **https://github.com/danilofeitosac** | Checklist Digital | Vistoria de avarias, fotos do pátio e registro de pertences |
-| **João Mateus Monteiro Batista** | **https://github.com/jotaaa728** | Portal do Cliente | Acompanhamento do status pela placa e emissão do laudo |
+- Python 3
+- Flask
+- HTML5
+- CSS3
+- Bootstrap 5
+- SQLite
 
----
+## Equipe
 
-## Instruções de Execução
+| Integrante | GitHub | Eixo de responsabilidade | Módulo principal |
+|---|---|---|---|
+| Kauane Coimbra Sousa | KauaneCoimbra | CRM, Frota & Histórico | Cadastro de clientes, veículos e histórico por placa |
+| Hemillio Oliveira Santos | Hemillio | Agendamento & Recepção | Agenda de vistorias, fila e horários |
+| Danilo Feitosa do Carmo | danilofeitosac | Checklist Digital | Vistoria, avarias, fotos e pertences |
+| João Mateus Monteiro Batista | jotaaa728 | Portal do Cliente | Acompanhamento e laudo |
 
-### Pré-requisitos
-* **Git** instalado
-* **Python** (versão 3.10 ou superior)
+## Artefatos de Engenharia de Software
+
+- [`DESCOBERTA.md`](DESCOBERTA.md): problema, partes interessadas, necessidades, escopo, MVP e riscos.
+- [`PROCESSO.md`](PROCESSO.md): processo de desenvolvimento adotado pela equipe.
+- [`REQUISITOS.md`](REQUISITOS.md): backlog, critérios de aceitação, regras e restrições.
+- [`PROJETO.md`](PROJETO.md): modelos, decisões e responsabilidades de projeto.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): convenções de contribuição.
+- [`diagrams/`](diagrams/): definições textuais dos diagramas Mermaid.
+
+## Execução
+
+Até o estado atual do repositório usado como base para esta documentação, não há aplicação executável versionada na `main`. As instruções de execução deverão ser atualizadas assim que a implementação Flask for adicionada.
