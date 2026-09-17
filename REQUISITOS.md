@@ -108,8 +108,6 @@ O material original usa duas formulações para o acesso do cliente: o `README.m
 - **placa** para localizar o histórico na área interna;
 - **link/token** para acesso externo do cliente.
 
-Essa decisão é registrada também no `PROJETO.md`.
-
 ## 8. Histórico de revisão
 
-- 2026-09-16: primeira versão estruturada a partir de `DESCOBERTA.md`.
+- 2026-09-16: primeira versão
