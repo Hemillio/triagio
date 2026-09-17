@@ -4,7 +4,6 @@ Este arquivo registra as convenções de contribuição do projeto Triagio.
 
 ## Ramos
 
-Todo trabalho deve partir de uma `main` atualizada.
 
 Padrões:
 
