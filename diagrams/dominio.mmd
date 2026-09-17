@@ -1,1 +1,71 @@
+classDiagram
+direction LR
 
+class Cliente {
+  +int id
+  +string nome
+  +string telefone
+  +bool ativo
+}
+
+class Veiculo {
+  +int id
+  +string placa
+  +string modelo
+  +int ano
+  +bool ativo
+}
+
+class Agendamento {
+  +int id
+  +datetime dataHora
+  +string status
+}
+
+class Vistoria {
+  +int id
+  +datetime iniciadaEm
+  +datetime finalizadaEm
+  +string status
+  +string nivelCombustivel
+  +string observacoes
+}
+
+class Avaria {
+  +int id
+  +string regiao
+  +string descricao
+}
+
+class Pertence {
+  +int id
+  +string descricao
+}
+
+class Foto {
+  +int id
+  +string caminhoArquivo
+  +int tamanhoBytes
+}
+
+class Laudo {
+  +int id
+  +datetime emitidoEm
+  +string caminhoArquivo
+}
+
+class TokenAcesso {
+  +int id
+  +string token
+  +datetime criadoEm
+}
+
+Cliente "1" --> "0..*" Veiculo : possui
+Veiculo "1" --> "0..*" Agendamento : recebe
+Veiculo "1" --> "0..*" Vistoria : possui historico
+Agendamento "0..1" --> "0..1" Vistoria : pode originar
+Vistoria "1" *-- "0..*" Avaria : registra
+Vistoria "1" *-- "0..*" Pertence : registra
+Vistoria "1" *-- "0..4" Foto : anexa
+Vistoria "1" --> "0..1" Laudo : gera
+Vistoria "1" --> "0..1" TokenAcesso : disponibiliza
