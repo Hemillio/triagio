@@ -1,1 +1,37 @@
+sequenceDiagram
+    actor Atendente
+    participant Sistema as Triagio
+    participant BD as SQLite
+    actor Cliente
 
+    Atendente->>Sistema: cadastrar ou localizar cliente/veículo
+    Sistema->>BD: consultar/salvar cadastro
+    BD-->>Sistema: cadastro disponível
+
+    Atendente->>Sistema: registrar/selecionar agendamento
+    Sistema->>BD: salvar agendamento
+
+    Atendente->>Sistema: iniciar vistoria
+    Sistema->>BD: criar vistoria EmPreenchimento
+
+    Atendente->>Sistema: registrar checklist
+    Note over Atendente,Sistema: avarias, combustível e pertences
+    Atendente->>Sistema: anexar fotos
+    Sistema->>BD: salvar dados e referências dos arquivos
+
+    Atendente->>Sistema: finalizar vistoria
+    Sistema->>BD: marcar como Finalizada
+    Sistema->>Sistema: gerar laudo
+    Sistema->>BD: registrar laudo e token
+    Sistema-->>Atendente: exibir link/token
+
+    Cliente->>Sistema: acessar link/token
+    Sistema->>BD: localizar token e vistoria
+
+    alt token válido
+        BD-->>Sistema: vistoria encontrada
+        Sistema-->>Cliente: exibir status e laudo disponível
+    else token inválido
+        BD-->>Sistema: nenhum acesso encontrado
+        Sistema-->>Cliente: informar acesso inválido
+    end
