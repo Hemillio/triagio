@@ -1,1 +1,78 @@
+erDiagram
+    CLIENTE ||--o{ VEICULO : possui
+    VEICULO ||--o{ AGENDAMENTO : recebe
+    VEICULO ||--o{ VISTORIA : possui
+    AGENDAMENTO o|--o| VISTORIA : origina
+    VISTORIA ||--o{ AVARIA : registra
+    VISTORIA ||--o{ PERTENCE : registra
+    VISTORIA ||--o{ FOTO : possui
+    VISTORIA ||--o| LAUDO : gera
+    VISTORIA ||--o| TOKEN_ACESSO : disponibiliza
 
+    CLIENTE {
+        INTEGER id PK
+        TEXT nome
+        TEXT telefone
+        BOOLEAN ativo
+    }
+
+    VEICULO {
+        INTEGER id PK
+        INTEGER cliente_id FK
+        TEXT placa UK
+        TEXT modelo
+        INTEGER ano
+        BOOLEAN ativo
+    }
+
+    AGENDAMENTO {
+        INTEGER id PK
+        INTEGER veiculo_id FK
+        TEXT data_hora
+        TEXT status
+    }
+
+    VISTORIA {
+        INTEGER id PK
+        INTEGER veiculo_id FK
+        INTEGER agendamento_id FK
+        TEXT iniciada_em
+        TEXT finalizada_em
+        TEXT status
+        TEXT nivel_combustivel
+        TEXT observacoes
+    }
+
+    AVARIA {
+        INTEGER id PK
+        INTEGER vistoria_id FK
+        TEXT regiao
+        TEXT descricao
+    }
+
+    PERTENCE {
+        INTEGER id PK
+        INTEGER vistoria_id FK
+        TEXT descricao
+    }
+
+    FOTO {
+        INTEGER id PK
+        INTEGER vistoria_id FK
+        TEXT caminho_arquivo
+        INTEGER tamanho_bytes
+    }
+
+    LAUDO {
+        INTEGER id PK
+        INTEGER vistoria_id FK
+        TEXT emitido_em
+        TEXT caminho_arquivo
+    }
+
+    TOKEN_ACESSO {
+        INTEGER id PK
+        INTEGER vistoria_id FK
+        TEXT token UK
+        TEXT criado_em
+    }
