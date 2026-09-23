@@ -32,14 +32,14 @@ Como compensação para o fator pessoal, a equipe mantém artefatos escritos a c
 ## Fluxo de trabalho
 
 1. Selecionar um item do backlog.
-2. Abrir ou vincular uma issue.
-3. Criar um ramo a partir da `main` atualizada.
+2. Abrir ou vincular uma issue. (registra o trabalho a fazer)
+3. Criar um ramo a partir da `main` atualizada. (trabalho isolado)
 4. Realizar commits pequenos e rastreáveis.
-5. Abrir pull request.
+5. Abrir pull request. (propor a integração da mudança)
 6. Solicitar revisão de outro integrante.
 7. Corrigir observações.
-8. Integrar somente após aprovação.
-9. Fechar a issue vinculada.
+8. Integrar somente após aprovação. (somente após aprovação)
+9. Fechar a issue vinculada. (trabalho concluído)
 
 ## Definição de pronto
 
