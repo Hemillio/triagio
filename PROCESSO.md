@@ -7,7 +7,7 @@ A equipe adota processo **iterativo e incremental**, com iterações de duas sem
 Avaliação dos cinco fatores de Boehm e Turner:
 
 - **Tamanho:** 4 pessoas — favorece abordagem ágil.
-- **Criticidade:** baixa — favorece abordagem ágil.
+- **Criticidade:** médio — favorece abordagem ágil.
 - **Dinamismo:** alto — requisitos de vistoria e interface podem mudar.
 - **Pessoal:** primeira experiência da equipe — exige mais disciplina documental.
 - **Cultura:** ajustes são tolerados desde que registrados.
