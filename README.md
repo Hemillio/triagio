@@ -19,7 +19,7 @@ O Triagio organiza o fluxo de entrada do veículo por meio de:
 - acompanhamento do status por link/token;
 - emissão de laudo simplificado de entrada.
 
-## MVP
+## MVP (Projeto Mínimo Viável)
 
 O MVP cobre o fluxo principal de triagem e vistoria:
 
