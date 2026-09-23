@@ -101,13 +101,6 @@ Convenções:
 | Escopo/MVP | HU-01, HU-07 |
 | R2 | CA-04.2, CA-04.3, RN-03 |
 
-## 7. Ponto de consistência resolvido
-
-O material original usa duas formulações para o acesso do cliente: o `README.md` menciona consulta pela placa, enquanto `DESCOBERTA.md` registra link/QR Code. Para deixar o requisito verificável, esta versão adota explicitamente:
-
-- **placa** para localizar o histórico na área interna;
-- **link/token** para acesso externo do cliente.
-
-## 8. Histórico de revisão
+## 7. Histórico de revisão
 
 - 2026-09-16: primeira versão
