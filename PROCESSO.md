@@ -38,7 +38,7 @@ Como compensação para o fator pessoal, a equipe mantém artefatos escritos a c
 5. Abrir pull request. (propor a integração da mudança)
 6. Solicitar revisão de outro integrante.
 7. Corrigir observações.
-8. Integrar somente após aprovação. (somente após aprovação)
+8. Integrar somente após aprovação.
 9. Fechar a issue vinculada. (trabalho concluído)
 
 ## Definição de pronto
