@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Veículos cadastrados</h1>
+
+<form method="GET" action="{{ url_for('clientes.listar_veiculos') }}">
+    <label for="placa">Buscar pela placa</label>
+    <input
+        type="text"
+        id="placa"
+        name="placa"
+        value="{{ placa }}"
+        maxlength="10"
+        placeholder="Digite a placa"
+    >
+    <button type="submit">Pesquisar</button>
+    <a href="{{ url_for('clientes.listar_veiculos') }}">Limpar busca</a>
+</form>
+
+<p>
+    <a href="{{ url_for('clientes.novo') }}">Cadastrar cliente e veículo</a>
+</p>
+
+{% if veiculos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Modelo</th>
+                <th>Ano</th>
+                <th>Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for veiculo in veiculos %}
+                <tr>
+                    <td>{{ veiculo.placa }}</td>
+                    <td>{{ veiculo.modelo }}</td>
+                    <td>{{ veiculo.ano }}</td>
+                    <td>{{ veiculo.cliente.nome }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhum veículo encontrado.</p>
+{% endif %}
+{% endblock %}
