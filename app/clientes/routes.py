@@ -1,163 +1,120 @@
-
-from flask import flash, redirect, render_template, request, url_for
+﻿from flask import current_app, redirect, render_template, request, url_for
 from sqlalchemy.exc import IntegrityError
 
-from app.extensions import db
 from app.clientes import bp
 from app.clientes.models import Cliente, Veiculo
+from app.clientes.servicos import normalizar_placa, validar_cliente, validar_veiculo
+from app.extensions import db
 
 
-@bp.route("/novo", methods=["GET", "POST"])
-def novo():
+def _placa_existente(placa):
+    return db.session.query(Veiculo.id).filter_by(placa=placa).first() is not None
+
+
+@bp.route("/clientes/novo", methods=["GET", "POST"])
+def novo_cliente():
+    valores = {"nome": "", "telefone": "", "placa": "", "modelo": "", "ano": ""}
+    erro = None
+
     if request.method == "POST":
-        nome = request.form.get("nome", "").strip()
-        telefone = request.form.get("telefone", "").strip()
-        placa = request.form.get("placa", "").strip().upper()
-        placa = placa.replace("-", "").replace(" ", "")
-        modelo = request.form.get("modelo", "").strip()
-        ano_texto = request.form.get("ano", "").strip()
-
-        erros = []
-
-        if not nome or len(nome) > 120:
-            erros.append("Informe o nome do cliente, com até 120 caracteres.")
-
-        if len(telefone) > 30:
-            erros.append("O telefone deve ter até 30 caracteres.")
-
-        if not placa or len(placa) > 10 or not placa.isalnum():
-            erros.append("Informe uma placa válida, com letras e números.")
-
-        if not modelo or len(modelo) > 120:
-            erros.append("Informe o modelo do veículo, com até 120 caracteres.")
-
+        valores = {chave: request.form.get(chave, "") for chave in valores}
         try:
-            ano = int(ano_texto)
-            if ano <= 0 or len(ano_texto) > 4:
-                raise ValueError
-        except ValueError:
-            erros.append("Informe um ano válido, com até quatro dígitos.")
-            ano = None
-
-        if erros:
-            for erro in erros:
-                flash(erro, "erro")
-            return render_template("clientes/novo.html"), 422
-
-        cliente = Cliente(nome=nome, telefone=telefone or None)
-        veiculo = Veiculo(
-            placa=placa,
-            modelo=modelo,
-            ano=ano,
-            cliente=cliente,
-        )
-
-        try:
+            nome, telefone = validar_cliente(valores["nome"], valores["telefone"])
+            placa, modelo, ano = validar_veiculo(
+                valores["placa"], valores["modelo"], valores["ano"]
+            )
+            if _placa_existente(placa):
+                raise ValueError("Placa já cadastrada. Localize o veículo existente.")
+        except ValueError as exc:
+            erro = str(exc)
+        else:
+            cliente = Cliente(nome=nome, telefone=telefone, ativo=True)
             db.session.add(cliente)
-            db.session.add(veiculo)
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
-            flash("Não foi possível cadastrar: essa placa já pode estar registrada.", "erro")
-            return render_template("clientes/novo.html"), 422
-
-        flash("Cliente e veículo cadastrados com sucesso!", "sucesso")
-        return redirect(url_for("clientes.listar_veiculos"), code=303)
-
-    return render_template("clientes/novo.html")
-@bp.get("/veiculos")
-def listar_veiculos():
-    placa = request.args.get("placa", "").strip().upper()
-    placa = placa.replace("-", "").replace(" ", "")
-
-    consulta = Veiculo.query
-
-    if placa:
-        consulta = consulta.filter(Veiculo.placa.contains(placa))
-
-    veiculos = consulta.order_by(Veiculo.placa).all()
+            db.session.flush()
+            db.session.add(
+                Veiculo(
+                    cliente_id=cliente.id, placa=placa, modelo=modelo,
+                    ano=ano, ativo=True,
+                )
+            )
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+                erro = "Placa já cadastrada. Localize o veículo existente."
+            else:
+                return redirect(url_for("clientes.lista_veiculos"), code=303)
 
     return render_template(
-        "clientes/veiculos.html",
-        veiculos=veiculos,
-        placa=placa,
-    )
+        "clientes/novo.html", valores=valores, erro=erro
+    ), (422 if erro else 200)
 
 
 @bp.route("/veiculos/novo", methods=["GET", "POST"])
 def novo_veiculo():
-    clientes = Cliente.query.filter_by(ativo=True).order_by(Cliente.nome).all()
+    clientes = db.session.query(Cliente).filter_by(ativo=True).order_by(Cliente.nome).all()
+    valores = {"cliente_id": "", "placa": "", "modelo": "", "ano": ""}
+    erro = None
 
     if request.method == "POST":
-        cliente_id_texto = request.form.get("cliente_id", "").strip()
-        placa = request.form.get("placa", "").strip().upper()
-        placa = placa.replace("-", "").replace(" ", "")
-        modelo = request.form.get("modelo", "").strip()
-        ano_texto = request.form.get("ano", "").strip()
+        valores = {chave: request.form.get(chave, "") for chave in valores}
+        if not valores["cliente_id"].isdecimal():
+            erro = "Selecione um cliente válido."
+        else:
+            cliente = db.session.get(Cliente, int(valores["cliente_id"]))
+            if cliente is None or not cliente.ativo:
+                erro = "Cliente inexistente ou inativo."
 
-        erros = []
-
-        try:
-            cliente_id = int(cliente_id_texto)
-            cliente = Cliente.query.filter_by(
-                id=cliente_id,
-                ativo=True,
-            ).first()
-
-            if cliente is None:
-                erros.append("Selecione um cliente existente e ativo.")
-        except ValueError:
-            cliente = None
-            erros.append("Selecione um cliente válido.")
-
-        if not placa or len(placa) > 10 or not placa.isalnum():
-            erros.append("Informe uma placa válida, com letras e números.")
-
-        if not modelo or len(modelo) > 120:
-            erros.append("Informe o modelo do veículo, com até 120 caracteres.")
-
-        try:
-            ano = int(ano_texto)
-            if ano <= 0 or len(ano_texto) > 4:
-                raise ValueError
-        except ValueError:
-            erros.append("Informe um ano válido, com até quatro dígitos.")
-            ano = None
-
-        if erros:
-            for erro in erros:
-                flash(erro, "erro")
-
-            return render_template(
-                "clientes/veiculo_novo.html",
-                clientes=clientes,
-            ), 422
-
-        veiculo = Veiculo(
-            cliente_id=cliente.id,
-            placa=placa,
-            modelo=modelo,
-            ano=ano,
-        )
-
-        try:
-            db.session.add(veiculo)
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
-            flash(
-                "Não foi possível cadastrar: essa placa já pode estar registrada.",
-                "erro",
-            )
-            return render_template(
-                "clientes/veiculo_novo.html",
-                clientes=clientes,
-            ), 422
-
-        flash("Veículo cadastrado com sucesso!", "sucesso")
-        return redirect(url_for("clientes.listar_veiculos"), code=303)
+        if erro is None:
+            try:
+                placa, modelo, ano = validar_veiculo(
+                    valores["placa"], valores["modelo"], valores["ano"]
+                )
+                if _placa_existente(placa):
+                    raise ValueError("Placa já cadastrada. Localize o veículo existente.")
+            except ValueError as exc:
+                erro = str(exc)
+            else:
+                db.session.add(
+                    Veiculo(
+                        cliente_id=cliente.id, placa=placa, modelo=modelo,
+                        ano=ano, ativo=True,
+                    )
+                )
+                try:
+                    db.session.commit()
+                except IntegrityError:
+                    db.session.rollback()
+                    erro = "Placa já cadastrada. Localize o veículo existente."
+                else:
+                    return redirect(url_for("clientes.lista_veiculos"), code=303)
 
     return render_template(
-        "clientes/veiculo_novo.html",
-        clientes=clientes,
+        "clientes/veiculo_novo.html", clientes=clientes, valores=valores, erro=erro
+    ), (422 if erro else 200)
+
+
+@bp.get("/veiculos")
+def lista_veiculos():
+    busca = request.args.get("placa", "").strip()
+    erro = None
+    consulta = db.session.query(Veiculo).order_by(Veiculo.placa)
+    if busca:
+        try:
+            placa = normalizar_placa(busca)
+        except ValueError as exc:
+            erro = str(exc)
+            veiculos = []
+        else:
+            veiculos = consulta.filter(Veiculo.placa.contains(placa)).all()
+    else:
+        veiculos = consulta.all()
+
+    return render_template(
+        "clientes/veiculos.html",
+        veiculos=veiculos,
+        busca=busca,
+        erro=erro,
+        historico_disponivel="clientes.historico" in current_app.view_functions,
+        vistoria_disponivel="vistorias.nova" in current_app.view_functions,
     )

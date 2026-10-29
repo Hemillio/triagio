@@ -1,5 +1,5 @@
+﻿from flask import Blueprint
 
-from flask import Blueprint
+bp = Blueprint("clientes", __name__, template_folder="templates")
 
-bp = Blueprint("clientes", __name__, url_prefix="/clientes")
-from app.clientes import routes
+from app.clientes import routes  # noqa: E402,F401
