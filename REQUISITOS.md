@@ -103,4 +103,17 @@ Convenções:
 
 ## 7. Histórico de revisão
 
+
+## 8. Dependências técnicas para a implementação inicial (proposta)
+
+- HU-03 depende de HU-01: toda vistoria pertence a um veículo previamente cadastrado.
+- HU-04 depende de HU-03: uma foto só pode existir vinculada a uma vistoria.
+- HU-05 depende de HU-01 e HU-03: o histórico por placa reúne vistorias existentes.
+- HU-06 depende de HU-03: o token permite consultar uma vistoria existente.
+- HU-07 depende de HU-03 finalizada: só uma vistoria concluída gera laudo (RN-04).
+- HU-02 se conecta a HU-03 por `agendamento_id`, quando o atendimento se originar de agendamento.
+
+O detalhamento das rotas, dos campos e das validações do módulo de vistoria está em `contrato/vistorias.md`. Esta seção explicita dependências técnicas sem alterar as prioridades Must/Should já definidas. Estimativas em pontos são decididas em equipe, não individualmente.
+
+
 - 2026-09-16: primeira versão
