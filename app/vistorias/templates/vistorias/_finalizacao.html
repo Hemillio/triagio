@@ -1,0 +1,10 @@
+
+{% if vistoria.status == 'EmPreenchimento' %}
+<section class="mt-4">
+  <h2>Conclusão</h2>
+  <p>Salve o checklist antes de finalizar. Uma vistoria finalizada fica somente para leitura.</p>
+  <form method="post" action="{{ url_for('vistorias.finalizar', vistoria_id=vistoria.id) }}">
+    <button class="btn btn-success" type="submit">Finalizar vistoria</button>
+  </form>
+</section>
+{% endif %}
