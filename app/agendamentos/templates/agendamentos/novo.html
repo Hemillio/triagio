@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Agendar recepção — Triagio{% endblock %}
+{% block content %}
+<main class="container py-3">
+  <h1>Agendar recepção</h1>
+  <p>Escolha um veículo cadastrado e um horário de entrada.</p>
+
+  {% if erro %}
+    <div class="alert alert-danger" role="alert">
+      {{ erro }}
+    </div>
+  {% endif %}
+
+  <form method="post" action="{{ url_for('agendamentos.novo') }}">
+    <label for="veiculo_id" class="form-label">Veículo</label>
+
+    <select name="veiculo_id" id="veiculo_id" class="form-select mb-3" required>
+      <option value="">Selecione</option>
+
+      {% for veiculo in veiculos %}
+        <option value="{{ veiculo.id }}"
+          {% if valores.veiculo_id == veiculo.id|string %}selected{% endif %}>
+          {{ veiculo.placa }} — {{ veiculo.modelo }} ({{ veiculo.ano }})
+        </option>
+      {% endfor %}
+    </select>
+
+    <label for="data_hora" class="form-label">
+      Data e hora da recepção (Palmas)
+    </label>
+
+    <input type="datetime-local"
+           id="data_hora"
+           name="data_hora"
+           class="form-control mb-3"
+           value="{{ valores.data_hora }}"
+           required>
+
+    <button type="submit" class="btn btn-primary">
+      Agendar
+    </button>
+
+    <a href="{{ url_for('agendamentos.lista') }}"
+       class="btn btn-outline-secondary">
+      Voltar
+    </a>
+  </form>
+</main>
+{% endblock %}
