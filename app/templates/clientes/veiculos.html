@@ -4,7 +4,7 @@
 {% block content %}
 <h1>Veículos cadastrados</h1>
 
-<form method="GET" action="{{ url_for('clientes.listar_veiculos') }}">
+<form method="GET" action="{{ url_for('clientes.lista_veiculos') }}">
     <label for="placa">Buscar pela placa</label>
     <input
         type="text"
@@ -15,12 +15,12 @@
         placeholder="Digite a placa"
     >
     <button type="submit">Pesquisar</button>
-    <a href="{{ url_for('clientes.listar_veiculos') }}">Limpar busca</a>
+    <a href="{{ url_for('clientes.lista_veiculos') }}">Limpar busca</a>
 </form>
 
 
 <p>
-    <a href="{{ url_for('clientes.novo') }}">Cadastrar cliente e veículo</a>
+    <a href="{{ url_for('clientes.novo_cliente') }}">Cadastrar cliente e veículo</a>
 </p>
 
 <p>

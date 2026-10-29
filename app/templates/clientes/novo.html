@@ -4,7 +4,11 @@
 {% block content %}
 <h1>Cadastrar cliente e veículo</h1>
 
-<form method="POST" action="{{ url_for('clientes.novo') }}">
+{% if erro %}
+  <div class="alert alert-danger">{{ erro }}</div>
+{% endif %}
+
+<form method="POST" action="{{ url_for('clientes.novo_cliente') }}">
     <fieldset>
         <legend>Dados do cliente</legend>
 
