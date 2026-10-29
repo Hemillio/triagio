@@ -44,7 +44,7 @@ Fonte: `diagrams/implantacao.mmd`.
 | A-03 | Uma instância de SQLAlchemy e migrações no Git | Consistência do esquema e histórico de alterações | Criar tabelas manualmente de formas diferentes em cada notebook |
 | A-04 | SQLite local para desenvolvimento | Tecnologia aprovada no README; uso simples em demonstração | Outro banco exigiria instalação e administração adicional |
 | A-05 | Fotografias em arquivos; caminho no banco | Evita BLOBs e segue o PROJETO.md | Backup deve reunir o banco e os uploads |
-| A-06 | Permitir agendamentos simultâneos | Oficinas de grande porte podem atender vários veículos no mesmo horário | Controle automático de capacidade por mecânicos ou baias ficará para uma versão futura |
+| A-06 | Agendamento com capacidade de um início por horário | Interpretação inicial de conflito da HU-02, sujeita a validação da equipe | Ainda não modela duração de serviço nem capacidade de múltiplas baias |
 | A-07 | Hora local na entrada; UTC ISO 8601 no banco | Evita ambiguidade na leitura de agenda e vistoria | Exige conversão para exibição |
 | A-08 | Interface interna sem login somente em ambiente local de demonstração | Permite construir o primeiro incremento sem adicionar uma HU que não consta do backlog | **Não pode ser exposta publicamente com dados reais**; autenticação/CSRF antes de uso real |
 | A-09 | Fábrica `create_app(test_config=None)` | Permite banco em memória nos testes e registro de módulos conforme integração | A equipe precisa preservar os nomes do contrato |
@@ -52,7 +52,7 @@ Fonte: `diagrams/implantacao.mmd`.
 ## 6. Verificações e fronteiras
 
 - A interface pode ajudar o usuário, mas **o servidor valida** placa/vínculo, horário, estado e arquivos.
-- O banco garante integridade de chaves estrangeiras e permite vários agendamentos para o mesmo horário. Nesta versão, não há controle automático de capacidade de atendimento.
+- O banco garante integridade de chaves estrangeiras e unicidade do horário de agendamento desta versão.
 - O cadastro de Cliente e Veiculo pertence à Kauane; a agenda usa `veiculo_id` existente.
 - A vistoria pertence ao Danilo; a agenda apenas disponibiliza o agendamento selecionável.
 - Token e laudo pertencem ao João; não entram no módulo de agendamento.
@@ -63,7 +63,7 @@ Fonte: `diagrams/implantacao.mmd`.
 | Requisito/risco | Resposta arquitetural desta versão |
 |---|---|
 | RN-01: placa única | Restrição no modelo de Veiculo da Kauane |
-| CA-02.3: agendamentos simultâneos | Permitir múltiplos veículos no mesmo horário, conforme decisão da equipe, sem restrição de unicidade sobre data e hora |
+| CA-02.3: conflitos | Unicidade do instante de recepção, validada pelo servidor e pelo banco, após acordo da equipe |
 | RN-02: vistoria ligada a veículo | Chave estrangeira não nula no módulo de Danilo |
 | RN-03: até 4 fotos de até 3 MB | Validação no servidor, dentro do módulo de Danilo |
 | RN-04: laudo somente de vistoria finalizada | Regra no módulo do João |
@@ -74,7 +74,7 @@ Fonte: `diagrams/implantacao.mmd`.
 
 ## 8. Pontos em aberto
 
-- Definir futuramente o controle de capacidade de atendimento, considerando a quantidade de mecânicos e baias disponíveis.
+- Confirmar em reunião a capacidade da recepção e a regra de conflito de horários.
 - Definir autenticação e autorização da área interna antes de qualquer implantação pública.
 - Revisar segurança de formulários (CSRF) e proteção dos arquivos antes de uso com dados reais.
 - Escolher servidor, banco e estratégia de backup para produção numa etapa futura.

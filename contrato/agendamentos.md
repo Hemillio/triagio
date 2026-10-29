@@ -10,17 +10,9 @@ Este arquivo detalha a implementação da HU-02 e os critérios CA-02.1 a CA-02.
 - `app/templates/base.html` define `{% block content %}`.
 - Danilo pode ler `Agendamento.id` e `Agendamento.veiculo_id` para criar uma vistoria ligada ao agendamento.
 
-## Capacidade e agendamentos simultâneos — decisão da equipe
+## Capacidade e conflito — decisão a validar
 
-O sistema Triagio foi pensado para oficinas de grande porte, com vários mecânicos e atendimentos simultâneos.
-
-Nesta primeira versão, será permitido cadastrar dois ou mais veículos para o mesmo horário de início.
-
-O sistema não terá uma restrição de unicidade sobre a data e hora dos agendamentos.
-
-Em uma versão futura, será implementado um controle de capacidade de atendimento, considerando a quantidade de mecânicos, vagas ou baias disponíveis.
-
-Até essa implementação, o sistema não verificará automaticamente se a oficina possui capacidade para todos os agendamentos simultâneos.
+Interpretação inicial: há um horário de início de recepção disponível para apenas um veículo, sem controle de duração. Dois registros para o mesmo instante UTC são incompatíveis. **A equipe deve confirmar essa hipótese; se houver várias baias/atendentes ou janelas de duração, atualizar requisito, contrato, modelo e testes antes da implementação.**
 
 ## Rotas propostas
 
@@ -28,8 +20,7 @@ Até essa implementação, o sistema não verificará automaticamente se a ofici
 |---|---|---|---|---|
 | GET | `/agendamentos` | nenhuma | 200, lista ordenada por data | — |
 | GET | `/agendamentos/novo` | nenhuma | 200, formulário | — |
-| POST | `/agendamentos/novo` | `veiculo_id`, `data_hora` | 303 para lista | 422, veículo ou data/hora inválidos |
-
+| POST | `/agendamentos/novo` | `veiculo_id`, `data_hora` | 303 para lista | 422, veículo/horário inválido ou em conflito |
 
 ## Dados
 
@@ -43,8 +34,8 @@ Até essa implementação, o sistema não verificará automaticamente se a ofici
 
 - CA-02.1: formulário permite escolher veículo existente e horário.
 - CA-02.2: agendamento salvo tem vínculo de banco com aquele veículo.
-- CA-02.3: o sistema permite agendar veículos diferentes para o mesmo horário.
-- CA-02.4: o sistema apresenta mensagens claras quando o veículo ou a data e hora informados são inválidos.
+- CA-02.3: a segunda criação para o mesmo instante não é confirmada.
+- CA-02.4: a recusa informa ao usuário que o horário está indisponível.
 
 ## Limite de operação
 
