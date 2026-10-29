@@ -1,0 +1,12 @@
+flowchart TB
+    Navegador[Navegador do atendente ou cliente] -->|HTTP| Flask[Aplicação Flask / Jinja]
+    Flask --> Clientes[Blueprint clientes]
+    Flask --> Agenda[Blueprint agendamentos]
+    Flask --> Vistorias[Blueprint vistorias]
+    Flask --> Portal[Blueprint portal]
+    Clientes --> DB[(SQLite via SQLAlchemy)]
+    Agenda --> DB
+    Vistorias --> DB
+    Portal --> DB
+    Vistorias --> Arquivos[(Fotografias em instance/uploads)]
+    Portal --> Laudos[(Laudos em arquivos)]

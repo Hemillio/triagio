@@ -1,0 +1,6 @@
+flowchart LR
+    Browser[Navegador local] -->|HTTP localhost| Server[Servidor Flask de desenvolvimento]
+    subgraph Notebook[Notebook de demonstração]
+       Server --> SQLite[(instance/triagio.db)]
+       Server --> Uploads[(instance/uploads)]
+    end
