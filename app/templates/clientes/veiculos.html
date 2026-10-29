@@ -18,9 +18,15 @@
     <a href="{{ url_for('clientes.listar_veiculos') }}">Limpar busca</a>
 </form>
 
+
 <p>
     <a href="{{ url_for('clientes.novo') }}">Cadastrar cliente e veículo</a>
 </p>
+
+<p>
+    <a href="{{ url_for('clientes.novo_veiculo') }}">Adicionar veículo a cliente existente</a>
+</p>
+
 
 {% if veiculos %}
     <table>

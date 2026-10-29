@@ -1,0 +1,96 @@
+
+{% extends "base.html" %}
+
+{% block title %}Adicionar veículo | Triagio{% endblock %}
+
+{% block content %}
+<div class="container pb-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-4">Adicionar veículo a cliente existente</h1>
+
+                    {% with mensagens = get_flashed_messages(with_categories=true) %}
+                        {% if mensagens %}
+                            {% for categoria, mensagem in mensagens %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ mensagem }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('clientes.novo_veiculo') }}">
+                        <div class="mb-3">
+                            <label for="cliente_id" class="form-label">Cliente *</label>
+                            <select
+                                id="cliente_id"
+                                name="cliente_id"
+                                class="form-select"
+                                required
+                            >
+                                <option value="">Selecione um cliente</option>
+                                {% for cliente in clientes %}
+                                    <option value="{{ cliente.id }}">
+                                        {{ cliente.nome }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="placa" class="form-label">Placa *</label>
+                            <input
+                                type="text"
+                                id="placa"
+                                name="placa"
+                                class="form-control"
+                                maxlength="10"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="modelo" class="form-label">Modelo *</label>
+                            <input
+                                type="text"
+                                id="modelo"
+                                name="modelo"
+                                class="form-control"
+                                maxlength="120"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="ano" class="form-label">Ano *</label>
+                            <input
+                                type="number"
+                                id="ano"
+                                name="ano"
+                                class="form-control"
+                                min="1"
+                                max="9999"
+                                required
+                            >
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                Cadastrar veículo
+                            </button>
+                            <a
+                                href="{{ url_for('clientes.listar_veiculos') }}"
+                                class="btn btn-outline-secondary"
+                            >
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
