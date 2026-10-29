@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-4">
+  <h1>Vistoria #{{ vistoria.id }}</h1>
+  <p><strong>Veículo:</strong> {{ vistoria.veiculo.placa }} — {{ vistoria.veiculo.modelo }}</p>
+  <p><strong>Estado:</strong> {{ vistoria.status }} | <strong>Iniciada em (UTC):</strong> {{ vistoria.iniciada_em }}</p>
+  {% if vistoria.finalizada_em %}<p><strong>Finalizada em (UTC):</strong> {{ vistoria.finalizada_em }}</p>{% endif %}
+  {% if erro %}<div class="alert alert-danger" role="alert">{{ erro }}</div>{% endif %}
+  {% if vistoria.status == "EmPreenchimento" %}
+    <form method="post" action="{{ url_for('vistorias.detalhe', vistoria_id=vistoria.id) }}">
+      <label for="nivel_combustivel" class="form-label">Combustível</label>
+      <select id="nivel_combustivel" name="nivel_combustivel" class="form-select mb-3">
+        {% for opcao in combustiveis %}
+          <option value="{{ opcao }}" {% if campos.nivel_combustivel == opcao %}selected{% endif %}>{{ opcao }}</option>
+        {% endfor %}
+      </select>
+      <label for="avarias" class="form-label">Avarias — uma por linha: Região | descrição</label>
+      <textarea class="form-control mb-3" id="avarias" name="avarias" rows="5">{{ campos.avarias }}</textarea>
+      <label for="pertences" class="form-label">Pertences — um por linha</label>
+      <textarea class="form-control mb-3" id="pertences" name="pertences" rows="4">{{ campos.pertences }}</textarea>
+      <label for="observacoes" class="form-label">Observações</label>
+      <textarea class="form-control mb-3" id="observacoes" name="observacoes" maxlength="3000" rows="4">{{ campos.observacoes }}</textarea>
+      <button type="submit" class="btn btn-primary">Salvar rascunho</button>
+    </form>
+  {% else %}
+    <p><strong>Combustível:</strong> {{ vistoria.nivel_combustivel }}</p>
+    <p><strong>Observações:</strong> {{ vistoria.observacoes or 'Nenhuma' }}</p>
+    <h2>Avarias</h2>
+    <ul>{% for avaria in vistoria.avarias %}<li>{{ avaria.regiao }} — {{ avaria.descricao }}</li>{% else %}<li>Nenhuma.</li>{% endfor %}</ul>
+    <h2>Pertences</h2>
+    <ul>{% for pertence in vistoria.pertences %}<li>{{ pertence.descricao }}</li>{% else %}<li>Nenhum.</li>{% endfor %}</ul>
+  {% endif %}
+  {% include "vistorias/_finalizacao.html" ignore missing %}
+  {% include "vistorias/_fotos.html" ignore missing %}
+</main>
+{% endblock %}

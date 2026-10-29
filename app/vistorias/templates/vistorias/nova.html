@@ -1,0 +1,13 @@
+
+{% extends "base.html" %}
+{% block content %}
+<main class="container py-4">
+  <h1>Iniciar vistoria</h1>
+  <p>Veículo: <strong>{{ veiculo.placa }}</strong> — {{ veiculo.modelo }} ({{ veiculo.ano }})</p>
+  <form method="post" action="{{ url_for('vistorias.iniciar', veiculo_id=veiculo.id) }}">
+    <label for="agendamento_id" class="form-label">ID do agendamento (opcional)</label>
+    <input type="number" min="1" name="agendamento_id" id="agendamento_id" class="form-control mb-3">
+    <button type="submit" class="btn btn-primary">Criar vistoria</button>
+  </form>
+</main>
+{% endblock %}
