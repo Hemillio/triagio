@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Acesso do cliente — Triagio{% endblock %}
+{% block title %}Acesso do cliente e laudo — Triagio{% endblock %}
 {% block content %}
 <main class="container py-3">
   <h1>Compartilhamento da vistoria #{{ vistoria.id }}</h1>
@@ -7,17 +7,31 @@
   <p>Estado atual: <strong>{{ vistoria.status }}</strong></p>
   <div class="alert alert-warning" role="alert">
     Área interna de demonstração, sem login. Use apenas dados fictícios.
-    Um link de localhost funciona somente em dispositivos que alcançam este servidor.
+    Links de localhost não funcionam remotamente sem acesso ao mesmo servidor.
   </div>
   {% if registro %}
     <label class="form-label" for="link-cliente">Link para acompanhamento</label>
     <input class="form-control" id="link-cliente" type="url" readonly value="{{ link }}">
-    <p class="form-text">Selecione o link acima e copie. Quem possuir este link poderá consultar o status.</p>
+    <p class="form-text">Selecione e copie o link. Quem o possuir poderá consultar o status e o laudo disponível.</p>
     <p>Token criado em (UTC): {{ registro.criado_em }}</p>
+    {% if vistoria.status == 'LaudoDisponivel' %}
+      <a class="btn btn-outline-primary mb-3" target="_blank" rel="noopener noreferrer"
+         href="{{ url_for('portal.baixar_laudo', token=registro.token) }}">Abrir laudo PDF</a>
+    {% endif %}
   {% else %}
     <form method="post" action="{{ url_for('portal.gerar_token', vistoria_id=vistoria.id) }}">
       <button type="submit" class="btn btn-primary">Criar link de acompanhamento</button>
     </form>
+  {% endif %}
+  {% if vistoria.status == 'Finalizada' %}
+    <section class="mt-4">
+      <h2>Emitir laudo</h2>
+      <form method="post" action="{{ url_for('portal.gerar_laudo', vistoria_id=vistoria.id) }}">
+        <button type="submit" class="btn btn-success">Gerar laudo PDF</button>
+      </form>
+    </section>
+  {% elif vistoria.status == 'EmPreenchimento' %}
+    <p class="alert alert-info mt-4">Finalize a vistoria antes de gerar o laudo.</p>
   {% endif %}
   <p class="mt-3"><a href="{{ url_for('vistorias.detalhe', vistoria_id=vistoria.id) }}">Voltar à vistoria</a></p>
 </main>

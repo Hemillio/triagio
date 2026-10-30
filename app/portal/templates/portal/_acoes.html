@@ -1,0 +1,14 @@
+<section class="mt-4 border-top pt-3">
+  <h2>Portal do cliente e laudo</h2>
+  <a class="btn btn-outline-primary mb-2"
+     href="{{ url_for('portal.gerenciar_acesso', vistoria_id=vistoria.id) }}">
+    Gerenciar link de acompanhamento e laudo
+  </a>
+  {% if vistoria.status == 'EmPreenchimento' %}
+    <p class="text-secondary small">A vistoria precisa ser finalizada para gerar um laudo.</p>
+  {% elif vistoria.status == 'Finalizada' %}
+    <p class="text-secondary small">Vistoria finalizada: o laudo pode ser emitido na página acima.</p>
+  {% elif vistoria.status == 'LaudoDisponivel' %}
+    <p class="text-secondary small">Laudo disponível para clientes com token válido.</p>
+  {% endif %}
+</section>
