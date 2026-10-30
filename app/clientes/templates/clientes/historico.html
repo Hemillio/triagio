@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Histórico de vistorias</h1>
+
+<section>
+    <h2>Dados do veículo</h2>
+    <p><strong>Placa:</strong> {{ veiculo.placa }}</p>
+    <p><strong>Modelo:</strong> {{ veiculo.modelo }}</p>
+    <p><strong>Ano:</strong> {{ veiculo.ano }}</p>
+    <p><strong>Cliente:</strong> {{ veiculo.cliente.nome }}</p>
+</section>
+
+<p>
+    <a href="{{ url_for('clientes.lista_veiculos', placa=veiculo.placa) }}">
+        Voltar para veículos
+    </a>
+</p>
+
+{% if vistorias %}
+    <table>
+        <thead>
+            <tr>
+                <th>Data de início</th>
+                <th>Data de finalização</th>
+                <th>Status</th>
+                <th>Vistoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vistoria in vistorias %}
+                <tr>
+                    <td>{{ formatar_data(vistoria.iniciada_em) }}</td>
+                    <td>
+                         {% if vistoria.finalizada_em %}
+                            {{ formatar_data(vistoria.finalizada_em) }}
+                        {% else %}
+                             Não finalizada
+                        {% endif %}
+                    </td>
+                    <td>{{ vistoria.status }}</td>
+                    <td>
+                        <a href="{{ url_for('vistorias.detalhe', vistoria_id=vistoria.id) }}">
+                            Ver vistoria
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhuma vistoria encontrada para este veículo.</p>
+{% endif %}
+{% endblock %}

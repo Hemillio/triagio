@@ -36,6 +36,7 @@
                 <th>Modelo</th>
                 <th>Ano</th>
                 <th>Cliente</th>
+                <th>Histórico</th>
             </tr>
         </thead>
         <tbody>
@@ -45,6 +46,11 @@
                     <td>{{ veiculo.modelo }}</td>
                     <td>{{ veiculo.ano }}</td>
                     <td>{{ veiculo.cliente.nome }}</td>
+                    <td>
+                        <a href="{{ url_for('clientes.historico', veiculo_id=veiculo.id) }}">
+                            Ver histórico
+                         </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
