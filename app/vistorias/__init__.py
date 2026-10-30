@@ -6,3 +6,5 @@ bp = Blueprint("vistorias", __name__, url_prefix="/vistorias", template_folder="
 from app.vistorias import views  # noqa: E402,F401
 
 from app.vistorias import finalizacao  # noqa: E402,F401
+
+from app.vistorias import fotos  # noqa: E402,F401

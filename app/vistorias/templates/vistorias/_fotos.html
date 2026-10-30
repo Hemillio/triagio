@@ -1,0 +1,18 @@
+
+<section class="mt-4">
+  <h2>Fotografias ({{ vistoria.fotos|length }}/4)</h2>
+  <div class="row g-3 mb-3">
+    {% for foto in vistoria.fotos %}
+      <div class="col-6 col-md-3">
+        <img class="img-fluid rounded border" alt="Foto da vistoria {{ foto.id }}" src="{{ url_for('vistorias.exibir_foto', vistoria_id=vistoria.id, foto_id=foto.id) }}">
+      </div>
+    {% else %}<p>Nenhuma foto anexada.</p>{% endfor %}
+  </div>
+  {% if vistoria.status == 'EmPreenchimento' and vistoria.fotos|length < 4 %}
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('vistorias.anexar_foto', vistoria_id=vistoria.id) }}">
+      <label for="foto" class="form-label">Adicionar foto JPEG, PNG ou WEBP (até 3 MB)</label>
+      <input type="file" id="foto" name="foto" accept="image/jpeg,image/png,image/webp" required class="form-control mb-2">
+      <button class="btn btn-primary" type="submit">Anexar foto</button>
+    </form>
+  {% endif %}
+</section>
