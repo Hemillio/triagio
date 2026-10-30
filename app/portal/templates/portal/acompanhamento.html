@@ -3,7 +3,7 @@
 {% block content %}
 <main class="container py-3">
   <h1>Acompanhamento de vistoria</h1>
-  <p>Consulte o andamento do atendimento usando o link fornecido pela oficina.</p>
+  <p>Consulte a situação do atendimento usando o link fornecido pela oficina.</p>
   <div class="card"><div class="card-body">
     <p class="mb-0">Situação atual:</p>
     <p class="fs-4 fw-bold mb-0">
@@ -12,6 +12,10 @@
       {% elif vistoria.status == 'LaudoDisponivel' %}Laudo disponível
       {% else %}Situação indisponível{% endif %}
     </p>
+    {% if vistoria.status == 'LaudoDisponivel' %}
+      <a class="btn btn-primary mt-3" href="{{ url_for('portal.baixar_laudo', token=registro.token) }}"
+         target="_blank" rel="noopener noreferrer">Visualizar laudo PDF</a>
+    {% endif %}
   </div></div>
   <p class="text-secondary small mt-3">Não compartilhe seu link de acompanhamento com desconhecidos.</p>
 </main>
