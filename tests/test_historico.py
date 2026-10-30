@@ -77,6 +77,6 @@ def test_historico_lista_vistorias():
     resposta = app.test_client().get(f"/veiculos/{veiculo_id}/historico")
 
     assert resposta.status_code == 200
-    assert resposta.data.index(b"2026-02-10") < resposta.data.index(b"2026-01-10")
+    assert resposta.data.index(b"10/02/2026 07:00") < resposta.data.index(b"10/01/2026 07:00")
     assert b"EmPreenchimento" in resposta.data
     assert b"Finalizada" in resposta.data

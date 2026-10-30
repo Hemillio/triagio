@@ -31,8 +31,14 @@
         <tbody>
             {% for vistoria in vistorias %}
                 <tr>
-                    <td>{{ vistoria.iniciada_em }}</td>
-                    <td>{{ vistoria.finalizada_em or "Não finalizada" }}</td>
+                    <td>{{ formatar_data(vistoria.iniciada_em) }}</td>
+                    <td>
+                         {% if vistoria.finalizada_em %}
+                            {{ formatar_data(vistoria.finalizada_em) }}
+                        {% else %}
+                             Não finalizada
+                        {% endif %}
+                    </td>
                     <td>{{ vistoria.status }}</td>
                     <td>
                         <a href="{{ url_for('vistorias.detalhe', vistoria_id=vistoria.id) }}">
