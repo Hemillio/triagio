@@ -1,49 +1,159 @@
+
 {% extends "base.html" %}
-{% block title %}Agendar recepção — Triagio{% endblock %}
+
+{% block title %}Novo agendamento — Triagio{% endblock %}
+
 {% block content %}
-<main class="container py-3">
-  <h1>Agendar recepção</h1>
-  <p>Escolha um veículo cadastrado e um horário de entrada.</p>
 
-  {% if erro %}
-    <div class="alert alert-danger" role="alert">
-      {{ erro }}
+<main class="container py-4">
+
+    <!-- CABEÇALHO -->
+    <div class="mb-4">
+
+        <h1 class="fw-bold">
+            Agendar recepção
+        </h1>
+
+        <p class="text-secondary">
+            Escolha um veículo cadastrado
+            e informe a data e hora de entrada.
+        </p>
+
     </div>
-  {% endif %}
 
-  <form method="post" action="{{ url_for('agendamentos.novo') }}">
-    <label for="veiculo_id" class="form-label">Veículo</label>
+    <!-- ERROS -->
+    {% if erro %}
 
-    <select name="veiculo_id" id="veiculo_id" class="form-select mb-3" required>
-      <option value="">Selecione</option>
+    <div class="alert alert-danger" role="alert">
+        {{ erro }}
+    </div>
 
-      {% for veiculo in veiculos %}
-        <option value="{{ veiculo.id }}"
-          {% if valores.veiculo_id == veiculo.id|string %}selected{% endif %}>
-          {{ veiculo.placa }} — {{ veiculo.modelo }} ({{ veiculo.ano }})
-        </option>
-      {% endfor %}
-    </select>
+    {% endif %}
 
-    <label for="data_hora" class="form-label">
-      Data e hora da recepção (Palmas)
-    </label>
+    <!-- FORMULÁRIO -->
+    <div class="card shadow-sm">
 
-    <input type="datetime-local"
-           id="data_hora"
-           name="data_hora"
-           class="form-control mb-3"
-           value="{{ valores.data_hora }}"
-           required>
+        <div class="card-body p-4">
 
-    <button type="submit" class="btn btn-primary">
-      Agendar
-    </button>
+            {% if veiculos %}
 
-    <a href="{{ url_for('agendamentos.lista') }}"
-       class="btn btn-outline-secondary">
-      Voltar
-    </a>
-  </form>
+            <form method="POST"
+                  action="{{ url_for('agendamentos.novo') }}">
+
+                <!-- VEÍCULO -->
+                <div class="mb-4">
+
+                    <label for="veiculo_id"
+                           class="form-label fw-semibold">
+                        Veículo
+                    </label>
+
+                    <select
+                        name="veiculo_id"
+                        id="veiculo_id"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Selecione um veículo
+                        </option>
+
+                        {% for veiculo in veiculos %}
+
+                        <option
+                            value="{{ veiculo.id }}"
+                            {% if valores.veiculo_id == (veiculo.id|string) %}
+                                selected
+                            {% endif %}>
+
+                            {{ veiculo.placa }}
+                            —
+                            {{ veiculo.modelo }}
+                            ({{ veiculo.ano }})
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                    <div class="form-text">
+                        O veículo precisa estar cadastrado
+                        antes do agendamento.
+                    </div>
+
+                </div>
+
+                <!-- DATA E HORA -->
+                <div class="mb-4">
+
+                    <label for="data_hora"
+                           class="form-label fw-semibold">
+                        Data e hora da recepção (Palmas)
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        name="data_hora"
+                        id="data_hora"
+                        class="form-control"
+                        value="{{ valores.data_hora }}"
+                        required
+                    >
+
+                    <div class="form-text">
+                        É permitido agendar veículos
+                        diferentes no mesmo horário.
+                    </div>
+
+                </div>
+
+                <!-- BOTÕES -->
+                <div class="d-flex flex-wrap gap-2">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Salvar agendamento
+                    </button>
+
+                    <a href="{{ url_for('agendamentos.lista') }}"
+                       class="btn btn-outline-secondary">
+                        Voltar à agenda
+                    </a>
+
+                </div>
+
+            </form>
+
+            {% else %}
+
+            <!-- SEM VEÍCULOS -->
+            <div class="alert alert-info">
+                Nenhum veículo disponível para
+                agendamento. Cadastre um veículo
+                antes de continuar.
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <a href="{{ url_for('clientes.novo_cliente') }}"
+                   class="btn btn-primary">
+                    Cadastrar cliente e veículo
+                </a>
+
+                <a href="{{ url_for('agendamentos.lista') }}"
+                   class="btn btn-outline-secondary">
+                    Voltar à agenda
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
 </main>
+
 {% endblock %}

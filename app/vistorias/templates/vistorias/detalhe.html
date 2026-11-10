@@ -4,8 +4,27 @@
 <main class="container py-4">
   <h1>Vistoria #{{ vistoria.id }}</h1>
   <p><strong>Veículo:</strong> {{ vistoria.veiculo.placa }} — {{ vistoria.veiculo.modelo }}</p>
-  <p><strong>Estado:</strong> {{ vistoria.status }} | <strong>Iniciada em (UTC):</strong> {{ vistoria.iniciada_em }}</p>
-  {% if vistoria.finalizada_em %}<p><strong>Finalizada em (UTC):</strong> {{ vistoria.finalizada_em }}</p>{% endif %}
+  <p>
+    <strong>Estado:</strong>
+    {% if vistoria.status == "LaudoDisponivel" %}
+        Laudo disponível
+    {% elif vistoria.status == "EmPreenchimento" %}
+        Em preenchimento
+    {% else %}
+        {{ vistoria.status }}
+    {% endif %}
+
+    | <strong>Iniciada em (Palmas/TO):</strong>
+    {{ vistoria.iniciada_em | data_br }}
+</p>
+
+{% if vistoria.finalizada_em %}
+    <p>
+        <strong>Finalizada em (Palmas/TO):</strong>
+        {{ vistoria.finalizada_em | data_br }}
+    </p>
+{% endif %}
+
   {% if erro %}<div class="alert alert-danger" role="alert">{{ erro }}</div>{% endif %}
   {% if vistoria.status == "EmPreenchimento" %}
     <form method="post" action="{{ url_for('vistorias.detalhe', vistoria_id=vistoria.id) }}">
