@@ -1,12 +1,211 @@
+
 {% extends "base.html" %}
+
 {% block title %}Início — Triagio{% endblock %}
+
 {% block content %}
-<main class="container py-3">
-  <h1>Triagio</h1>
-  <p>Sistema de recepção e vistoria de veículos em desenvolvimento.</p>
-  <div class="alert alert-warning" role="alert">
-    Ambiente acadêmico de demonstração: utilize somente dados fictícios.
-  </div>
-  <p>As funcionalidades aparecerão conforme os módulos forem integrados.</p>
+
+<main class="container py-4">
+
+    <!-- TÍTULO -->
+    <div class="mb-4">
+        <h1 class="fw-bold">
+            Bem-vindo ao Triagio
+        </h1>
+
+        <p class="text-secondary fs-5">
+            Gerencie clientes, veículos,
+            agendamentos e vistorias em um só lugar.
+        </p>
+    </div>
+
+    <!-- AVISO -->
+    <div class="alert alert-warning mb-4">
+        Ambiente acadêmico de demonstração.
+        Utilize somente dados fictícios.
+    </div>
+
+    <h2 class="h4 fw-bold mb-3">
+        Painel de funcionalidades
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- CLIENTES -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card module-card h-100">
+                <div class="card-body d-flex flex-column">
+
+                    <div class="fs-2 mb-3">👤</div>
+
+                    <h3 class="card-title h5">
+                        Clientes
+                    </h3>
+
+                    <p class="text-secondary">
+                        Cadastre clientes e seus
+                        primeiros veículos.
+                    </p>
+
+                    <a href="{{ url_for('clientes.novo_cliente') }}"
+                       class="btn btn-primary mt-auto">
+                        Cadastrar cliente
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- VEÍCULOS -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card module-card h-100">
+                <div class="card-body d-flex flex-column">
+
+                    <div class="fs-2 mb-3">🚗</div>
+
+                    <h3 class="card-title h5">
+                        Veículos
+                    </h3>
+
+                    <p class="text-secondary">
+                        Consulte os veículos
+                        cadastrados e busque pela placa.
+                    </p>
+
+                    <a href="{{ url_for('clientes.lista_veiculos') }}"
+                       class="btn btn-primary mt-auto">
+                        Ver veículos
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- AGENDAMENTOS -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card module-card h-100">
+                <div class="card-body d-flex flex-column">
+
+                    <div class="fs-2 mb-3">📅</div>
+
+                    <h3 class="card-title h5">
+                        Agenda de recepção
+                    </h3>
+
+                    <p class="text-secondary">
+                        Visualize os horários
+                        de recepção dos veículos.
+                    </p>
+
+                    <a href="{{ url_for('agendamentos.lista') }}"
+                       class="btn btn-primary mt-auto">
+                        Abrir agenda
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- NOVO AGENDAMENTO -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card module-card h-100">
+                <div class="card-body d-flex flex-column">
+
+                    <div class="fs-2 mb-3">➕</div>
+
+                    <h3 class="card-title h5">
+                        Novo agendamento
+                    </h3>
+
+                    <p class="text-secondary">
+                        Selecione um veículo e defina
+                        a data de recepção.
+                    </p>
+
+                    <a href="{{ url_for('agendamentos.novo') }}"
+                       class="btn btn-primary mt-auto">
+                        Agendar recepção
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTORIAS -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card module-card h-100">
+                <div class="card-body d-flex flex-column">
+
+                    <div class="fs-2 mb-3">🔍</div>
+
+                    <h3 class="card-title h5">
+                        Vistorias
+                    </h3>
+
+                    <p class="text-secondary">
+                        Selecione um veículo para
+                        iniciar uma vistoria digital.
+                    </p>
+
+                    <a href="{{ url_for('clientes.lista_veiculos') }}"
+                       class="btn btn-success mt-auto">
+                        Iniciar vistoria
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTÓRICO -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card module-card h-100">
+                <div class="card-body d-flex flex-column">
+
+                    <div class="fs-2 mb-3">📋</div>
+
+                    <h3 class="card-title h5">
+                        Histórico
+                    </h3>
+
+                    <p class="text-secondary">
+                        Consulte os registros
+                        anteriores de um veículo.
+                    </p>
+
+                    <a href="{{ url_for('clientes.lista_veiculos') }}"
+                       class="btn btn-primary mt-auto">
+                        Consultar histórico
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PORTAL -->
+    <section class="card border-0 shadow-sm mt-4">
+        <div class="card-body p-4">
+
+            <h2 class="h5 fw-bold">
+                Portal do cliente e laudos
+            </h2>
+
+            <p class="text-secondary">
+                Os laudos e links de acompanhamento
+                estão associados às vistorias.
+                Consulte o histórico de um veículo
+                para localizar seus registros.
+            </p>
+
+            <a href="{{ url_for('clientes.lista_veiculos') }}"
+               class="btn btn-outline-primary">
+                Consultar veículos
+            </a>
+
+        </div>
+    </section>
+
 </main>
+
 {% endblock %}

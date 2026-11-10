@@ -1,7 +1,7 @@
 from importlib import import_module
 from importlib.util import find_spec
 from pathlib import Path
-
+from app.filtros import data_br
 from flask import Flask, render_template
 
 from app.extensions import db, migrate
@@ -32,6 +32,7 @@ def _registrar_modulos(app):
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    app.jinja_env.filters["data_br"] = data_br
     app.config.from_object(Config)
     if test_config is not None:
         app.config.update(test_config)
