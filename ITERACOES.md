@@ -250,7 +250,16 @@ Nessa iteração, foram consideradas **2 entregas principais**:
 
 O trabalho restante ideal foi distribuído ao longo dos dias da iteração, enquanto o trabalho restante observado permaneceu em **2** até o último dia, quando as duas entregas foram concluídas e integradas.
 
-![Burndown chart da última iteração](./burndown_triagio_ultima_iteracao.png)
+
+```mermaid
+xychart-beta
+    title "Burndown - Ultima iteracao do Triagio"
+    x-axis ["05/11", "06/11", "07/11", "08/11", "09/11", "10/11"]
+    y-axis "Tarefas restantes" 0 --> 2
+    line [2, 1.6, 1.2, 0.8, 0.4, 0]
+    line [2, 2, 2, 2, 2, 0]
+```
+
 
 ## 7. Retrospectiva e próximos passos
 
