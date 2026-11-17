@@ -229,9 +229,14 @@ A comparação deve partir de um **escopo inicial da iteração** e considerar a
 
 Preencher **uma linha por dia da iteração** após identificar o período real.
 
-| Data | Trabalho restante ideal | Trabalho restante observado | Tarefas concluídas no dia | Alteração de escopo / observação |
-|---|---:|---:|---|---|
-| A preencher | — | — | — | A confirmar |
+| Data | Trabalho restante ideal | Trabalho restante observado | Tarefas concluídas no dia | Observação |
+|---|---:|---:|---:|---|
+| 05/11/2026 | 2,0 | 2 | 0 | Início da iteração |
+| 06/11/2026 | 1,6 | 2 | 0 | Nenhum PR integrado |
+| 07/11/2026 | 1,2 | 2 | 0 | Nenhum PR integrado |
+| 08/11/2026 | 0,8 | 2 | 0 | Nenhum PR integrado |
+| 09/11/2026 | 0,4 | 2 | 0 | Nenhum PR integrado |
+| 10/11/2026 | 0,0 | 0 | 2 | PR #15 às 16h e PR #16 às 20h01 |
 
 A linha **ideal** começa com o trabalho planejado e chega a zero ao final do período. A linha **observada** considera apenas os registros verificáveis de conclusão. Se sobrou trabalho, o valor final observado permanece acima de zero.
 
