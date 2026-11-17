@@ -254,11 +254,12 @@ O trabalho restante ideal foi distribuído ao longo dos dias da iteração, enqu
 ```mermaid
 xychart-beta
     title "Burndown - Ultima iteracao do Triagio"
-    x-axis ["05/11", "06/11", "07/11", "08/11", "09/11", "10/11"]
-    y-axis "Tarefas restantes" 0 --> 2
-    line [2, 1.6, 1.2, 0.8, 0.4, 0]
-    line [2, 2, 2, 2, 2, 0]
+    x-axis "Dias da iteracao" ["05/11", "06/11", "07/11", "08/11", "09/11", "10/11"]
+    y-axis "Quantidade de tarefas pendentes" 0 --> 2
+    line "Ideal - Azul" [2, 1.6, 1.2, 0.8, 0.4, 0]
+    line "Observado - Verde" [2, 2, 2, 2, 2, 0]
 ```
+
 
 
 ## 7. Retrospectiva e próximos passos
