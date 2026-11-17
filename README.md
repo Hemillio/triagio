@@ -1,63 +1,136 @@
-# Triagio — Sistema Web de Atendimento e Triagem para Oficina
+# Triagio
 
-Sistema web desenvolvido como projeto prático da disciplina de Engenharia de Software, com foco na digitalização da recepção, triagem e vistoria de veículos em oficinas mecânicas.
+Sistema web acadêmico para apoiar a recepção e a triagem de veículos em oficinas. O projeto reúne cadastro de clientes e veículos, agendamento, vistoria, histórico do veículo e acompanhamento do cliente por token.
 
-## Problema
+> **Demonstração local:** o sistema ainda não tem autenticação para a área interna nem proteção CSRF nos formulários. Use somente em ambiente local e com dados fictícios. Não o publique nem use dados reais sem definir e implementar as proteções necessárias.
 
-O processo de recepção e triagem de veículos em oficinas pode depender de fichas em papel e mensagens informais. Isso favorece retrabalho, perda de histórico, conflitos de agendamento e divergências sobre avarias pré-existentes.
+## Funcionalidades
 
-## Proposta
+- Cadastro de clientes e veículos, com consulta de veículos pela placa.
+- Agendamento de recepção e visualização da agenda.
+- Abertura e preenchimento de vistorias com nível de combustível, observações, avarias e pertences.
+- Envio de até quatro fotos por vistoria. Cada arquivo pode ter até 3 MiB e deve ser JPEG, PNG ou WEBP.
+- Finalização da vistoria, que impede novas alterações no checklist e o envio de fotos.
+- Histórico de vistorias associado ao veículo.
+- Geração de um link com token aleatório para acompanhar o estado da vistoria.
+- Geração e consulta de laudo em PDF depois da finalização.
 
-O Triagio organiza o fluxo de entrada do veículo por meio de:
+## Fluxo básico
 
-- cadastro de clientes e veículos;
-- agendamento da recepção;
-- checklist digital de vistoria;
-- registro de avarias, nível de combustível e pertences;
-- anexação de fotos;
-- histórico de vistorias por placa;
-- acompanhamento do status por link/token;
-- emissão de laudo simplificado de entrada.
+1. Cadastre um cliente e seu veículo, ou localize um veículo já cadastrado.
+2. Crie um agendamento, se necessário.
+3. Abra uma vistoria para o veículo, preencha o checklist e anexe as evidências.
+4. Finalize a vistoria.
+5. Na área de acesso do portal, gere o link para o cliente. Depois da finalização, gere o laudo PDF.
+6. O cliente acompanha a situação e acessa o laudo pelo link com token.
 
-## MVP (Projeto Mínimo Viável)
+As funcionalidades são acessadas pela página inicial e pela navegação do sistema. O módulo de vistorias não possui uma página de listagem em `/vistorias`: as telas dependem do veículo ou da vistoria, por exemplo `/vistorias/nova/<id_do_veiculo>` e `/vistorias/<id_da_vistoria>`.
 
-O MVP cobre o fluxo principal de triagem e vistoria:
+## Tecnologias
 
-1. cadastrar ou localizar cliente e veículo;
-2. agendar a recepção;
-3. iniciar a vistoria;
-4. preencher o checklist e anexar evidências;
-5. finalizar a vistoria;
-6. gerar o laudo;
-7. disponibilizar acompanhamento ao cliente.
+- Python 3.14 (versão usada na integração contínua)
+- Flask e Flask-SQLAlchemy
+- Flask-Migrate e Alembic para migrações do banco
+- SQLite por padrão
+- Pillow para validar imagens
+- ReportLab para gerar PDFs
+- Bootstrap 5.3.3 para a interface
+- pytest para testes
 
-## Tecnologias previstas
+## Requisitos
 
-- Python 3
-- Flask
-- HTML5
-- CSS3
-- Bootstrap 5
-- SQLite
+- Python 3.14 instalado.
+- Git para clonar o repositório.
+- Acesso à internet para instalar os pacotes Python e carregar o Bootstrap do CDN.
+
+## Instalação e execução
+
+Clone o repositório e acesse a pasta:
+
+```bash
+git clone https://github.com/Hemillio/triagio.git
+cd triagio
+```
+
+Crie e ative um ambiente virtual. No Windows PowerShell:
+
+```powershell
+py -3.14 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+No macOS ou Linux:
+
+```bash
+python3.14 -m venv .venv
+source .venv/bin/activate
+```
+
+Instale as dependências:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Opcionalmente, crie um arquivo `.env` a partir do exemplo:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+No macOS ou Linux, use `cp .env.example .env`. Para demonstração local, o banco SQLite fica em `instance/triagio.db`. O `.env.example` também mostra como definir `TRIAGIO_SECRET_KEY`, `TRIAGIO_DATABASE_URL` e `TRIAGIO_TIMEZONE`. Não use a chave de exemplo em um ambiente compartilhado ou publicado.
+
+Crie ou atualize as tabelas e inicie o servidor de desenvolvimento:
+
+```bash
+flask --app run.py db upgrade
+flask --app run.py run --debug
+```
+
+Abra <http://127.0.0.1:5000> no navegador. Para interromper o servidor, pressione `Ctrl+C` no terminal.
+
+## Testes
+
+Com o ambiente virtual ativo e as dependências instaladas:
+
+```bash
+python -m pytest -q
+```
+
+O GitHub Actions executa esse mesmo comando em pushes para `main` e em pull requests direcionados à `main`.
+
+## Arquivos locais
+
+O banco, as fotos enviadas e os PDFs gerados ficam sob `instance/`, que não é versionada:
+
+- Banco SQLite: `instance/triagio.db`.
+- Fotos de vistorias: `instance/uploads/vistorias/`.
+- Laudos PDF: `instance/laudos/`.
+
+Faça cópias de segurança desses arquivos se precisar preservar dados locais. Os registros do banco referenciam as fotos e os PDFs armazenados no disco.
+
+## Limitações conhecidas
+
+- A área interna não exige login e os formulários ainda não têm proteção CSRF.
+- Os links de acompanhamento usam um token secreto na URL; o sistema não oferece expiração ou revogação do token.
+- Fotos e laudos são armazenados no disco local. Hospedagem, armazenamento externo e política de backup não estão configurados.
+- Use apenas dados fictícios nesta versão acadêmica local.
+
+## Documentação do projeto
+
+- [`REQUISITOS.md`](REQUISITOS.md): histórias, prioridades e critérios de aceitação.
+- [`ARQUITETURA.md`](ARQUITETURA.md) e [`PROJETO.md`](PROJETO.md): módulos, integração e decisões de projeto.
+- [`contrato/`](contrato/): contratos dos módulos.
+- [`ITERACOES.md`](ITERACOES.md) e [`PROCESSO.md`](PROCESSO.md): planejamento e processo de desenvolvimento.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): fluxo de branches, pull requests e revisão.
+- [`diagrams/`](diagrams/): diagramas do projeto.
 
 ## Equipe
 
-| Integrante | GitHub | Eixo de responsabilidade | Módulo principal |
-|---|---|---|---|
-| Kauane Coimbra Sousa | KauaneCoimbra | CRM, Frota & Histórico | Cadastro de clientes, veículos e histórico por placa |
-| Hemillio Oliveira Santos | Hemillio | Agendamento & Recepção | Agenda de vistorias, fila e horários |
-| Danilo Feitosa do Carmo | danilofeitosac | Checklist Digital | Vistoria, avarias, fotos e pertences |
-| João Mateus Monteiro Batista | jotaaa728 | Portal do Cliente | Acompanhamento e laudo |
-
-## Artefatos de Engenharia de Software
-
-- [`DESCOBERTA.md`](DESCOBERTA.md): problema, partes interessadas, necessidades, escopo, MVP e riscos.
-- [`PROCESSO.md`](PROCESSO.md): processo de desenvolvimento adotado pela equipe.
-- [`REQUISITOS.md`](REQUISITOS.md): backlog, critérios de aceitação, regras e restrições.
-- [`PROJETO.md`](PROJETO.md): modelos, decisões e responsabilidades de projeto.
-- [`CONTRIBUTING.md`](CONTRIBUTING.md): convenções de contribuição.
-- [`diagrams/`](diagrams/): definições textuais dos diagramas Mermaid.
-
-## Execução
-
-Até o estado atual do repositório usado como base para esta documentação, não há aplicação executável versionada na `main`. As instruções de execução deverão ser atualizadas assim que a implementação Flask for adicionada.
+| Integrante | GitHub | Responsabilidade principal |
+|---|---|---|
+| Kauane Coimbra Sousa | [KauaneCoimbra](https://github.com/KauaneCoimbra) | Clientes, veículos e histórico |
+| Hemillio Oliveira Santos | [Hemillio](https://github.com/Hemillio) | Agendamento e recepção |
+| Danilo Feitosa do Carmo | [danilofeitosac](https://github.com/danilofeitosac) | Vistorias, checklist, avarias, fotos e pertences |
+| João Mateus Monteiro Batista | [jotaaa728](https://github.com/jotaaa728) | Portal do cliente e laudos |
