@@ -240,17 +240,17 @@ Preencher **uma linha por dia da iteração** após identificar o período real.
 
 A linha **ideal** começa com o trabalho planejado e chega a zero ao final do período. A linha **observada** considera apenas os registros verificáveis de conclusão. Se sobrou trabalho, o valor final observado permanece acima de zero.
 
-### 6.4 Gráfico e interpretação
+### 6.4 Burndown chart da última iteração
 
-- **Gráfico:** a gerar após o preenchimento da tabela 6.3, com título *Burndown — última iteração do Triagio*.
-- **Eixo X:** datas/dias da iteração.
-- **Eixo Y:** trabalho restante (na unidade escolhida).
-- **Séries:** `Ideal` e `Observado`.
-- **Interpretação:** explicar atrasos, adiantamentos e alterações de escopo com base em registros reais, sem atribuir causas não documentadas.
+A última iteração considerada neste registro ocorreu de **05/11/2026 a 10/11/2026**.
 
-O gráfico será adicionado aqui após a conferência dos dados com os quatro integrantes.
+Nessa iteração, foram consideradas **2 entregas principais**:
+- **PR #15** — `feat(frontend): melhora navegacao, formularios e datas do Triagio`
+- **PR #16** — `ci: adiciona testes automatizados com GitHub Actions`
 
----
+O trabalho restante ideal foi distribuído ao longo dos dias da iteração, enquanto o trabalho restante observado permaneceu em **2** até o último dia, quando as duas entregas foram concluídas e integradas.
+
+![Burndown chart da última iteração](./burndown_triagio_ultima_iteracao.png)
 
 ## 7. Retrospectiva e próximos passos
 
