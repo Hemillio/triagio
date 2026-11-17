@@ -233,7 +233,7 @@ Preencher **uma linha por dia da iteração** após identificar o período real.
 |---|---:|---:|---:|---|
 | 05/11/2026 | 2,0 | 2 | 0 | Início da iteração |
 | 06/11/2026 | 1,6 | 2 | 0 | Nenhum PR integrado |
-| 07/11/2026 | 1,6 | 2 | 0 | Nenhum PR integrado |
+| 07/11/2026 | 1,2 | 2 | 0 | Nenhum PR integrado |
 | 08/11/2026 | 0,8 | 2 | 0 | Nenhum PR integrado |
 | 09/11/2026 | 0,4 | 2 | 0 | Nenhum PR integrado |
 | 10/11/2026 | 0,0 | 0 | 2 | PR #15 às 16h e PR #16 às 20h01 |
