@@ -1,0 +1,45 @@
+name: Entrega contínua - pacote local
+
+on:
+  workflow_run:
+    workflows:
+      - Testes automatizados - Triagio
+    types:
+      - completed
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  pacote:
+    name: Gerar pacote da versão aprovada
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o commit validado pela CI
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+
+      - name: Empacotar somente os arquivos necessários para executar
+        env:
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          mkdir -p dist
+          short_sha="${SOURCE_SHA:0:12}"
+          git archive --format=zip --prefix="triagio-${short_sha}/" --output="dist/triagio-${short_sha}.zip" "$SOURCE_SHA" app migrations config.py run.py requirements.txt .env.example
+
+      - name: Publicar artefato para a demonstração
+        uses: actions/upload-artifact@v7
+        with:
+          name: triagio-${{ github.event.workflow_run.head_sha }}
+          path: dist/triagio-*.zip
+          if-no-files-found: error
+          retention-days: 30
